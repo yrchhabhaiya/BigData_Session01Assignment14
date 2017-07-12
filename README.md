@@ -25,3 +25,38 @@ hive> LOAD DATA LOCAL INPATH '/home/acadgild/hive/dataset.txt'
     
 Screenshot: Assignment14.1
 ----------------------------------------------------------------------------------------------------------------------------
+
+Fetch date and temperature from temperature_data where zip code is greater than
+300000 and less than 399999.
+hive> SELECT date, temp
+    > FROM temperature_data
+    > WHERE zip >= 300000 AND zip <=399999;
+
+Calculate maximum temperature corresponding to every year from temperature_data
+table.
+hive> SELECT SUBSTR(date,7,4) AS year, MAX(temp)
+    > FROM temperature_data
+    > GROUP BY SUBSTR(date,7,4);
+
+Calculate maximum temperature from temperature_data table corresponding to those
+years which have at least 2 entries in the table.
+hive> SELECT SUBSTR(date,7,4) AS year, MAX(temp)
+    > FROM temperature_data
+    > GROUP BY SUBSTR(date,7,4)
+    > HAVING COUNT(*) > 2;
+
+Create a view on the top of last query, name it temperature_data_vw.
+hive> CREATE VIEW temperature_data_vw
+    > AS
+    > SELECT SUBSTR(date,7,4) AS year, MAX(temp)
+    > FROM temperature_data
+    > GROUP BY SUBSTR(date,7,4)
+    > HAVING COUNT(*) > 2;
+    
+Export contents from temperature_data_vw to a file in local file system, such that each
+file is '|' delimited.
+hive> INSERT OVERWRITE LOCAL DIRECTORY '/home/acadgild/hive/export'
+    > ROW FORMAT DELIMITED
+    > FIELDS TERMINATED BY '|'
+    > SELECT * FROM temperature_data_vw;
+

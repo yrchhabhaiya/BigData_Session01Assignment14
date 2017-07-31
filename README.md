@@ -60,3 +60,6 @@ hive> INSERT OVERWRITE LOCAL DIRECTORY '/home/acadgild/hive/export'
     > FIELDS TERMINATED BY '|'
     > SELECT * FROM temperature_data_vw;
 
+----------------------------------------------------------------------------------------------------------------------------
+
+Assignment 14.3: Explain Hive Architecture/Components in Brief.
